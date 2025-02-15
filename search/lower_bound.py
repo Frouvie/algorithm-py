@@ -1,13 +1,19 @@
-def lower_bound(array, target, comparator = lambda a, b : a < b):
-    left = 0
-    right = len(array) - 1
+from typing import TypeVar, Callable, List, Optional
 
-    while left <= right:
+T = TypeVar('T')
+
+def lower_bound(array: List[T], target: T, left: Optional[T] = None, right: Optional[T] = None, comparator: Callable[[T, T], bool] = lambda a, b : a <= b) -> int:
+    if left is None:
+        left = 0
+    if right is None:
+        right = len(array) - 1
+
+    while right - left > 1:
         middle = left + (right - left) // 2
 
         if comparator(array[middle], target):
-            left = middle + 1
+            left = middle
         else:
-            right = middle - 1
+            right = middle
     
-    return left
+    return right if comparator(array[right], target) else left
