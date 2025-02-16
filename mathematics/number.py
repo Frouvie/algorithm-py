@@ -42,14 +42,16 @@ def find_dividers(x: int) -> List[int]:
     return dividers
 
 def list_primes(left: int, right: int) -> List[int]:
-    n = right - left + 1
-    sieve = [True] * n
+    sieve = [True] * (right + 1)
     primes = []
 
-    for i in range(0, n + 1):
+    for i in range(2, right + 1):
         if sieve[i]:
-            primes.append(i + left)
-            for j in range(i * i, n + 1, i):
+            for j in range(i * i, right + 1, i):
                 sieve[j] = False
+    
+    for i in range(left, right + 1):
+        if sieve[i]:
+            primes.append(i)
     
     return primes
